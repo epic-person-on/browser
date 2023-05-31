@@ -1,25 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image API Request</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<title>Image API Request</title>
+	<script>
+		async function analyzeImage() {
+			const url = 'https://microsoft-computer-vision3.p.rapidapi.com/analyze?language=en&visualFeatures%5B0%5D=ImageType';
+			const apiKey = '3b143502a0mshe887b77a672d0b8p10626cjsnaf8a412d73d3';
+
+			const imageUrl = document.getElementById('image-url').value;
+			const options = {
+				method: 'POST',
+				headers: {
+					'content-type': 'application/json',
+					'X-RapidAPI-Key': apiKey,
+					'X-RapidAPI-Host': 'microsoft-computer-vision3.p.rapidapi.com'
+				},
+				body: JSON.stringify({
+					url: imageUrl
+				})
+			};
+
+			try {
+				const response = await fetch(url, options);
+				const result = await response.text();
+				console.log(result);
+				// Do something with the result, e.g., display it on the page
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	</script>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Image API Request</h1>
-        <form id="imageForm" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="image" class="form-label">Select an Image:</label>
-                <input type="file" class="form-control" name="image" accept="image/*" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Upload</button>
-        </form>
-        <div id="response" class="mt-4"></div>
-    </div>
-
-    <script src="imagescript.js"></script>
-    
+	<input type="text" id="image-url" placeholder="Enter image URL">
+	<button onclick="analyzeImage()">Analyze Image</button>
 </body>
 </html>
