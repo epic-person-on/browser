@@ -81,7 +81,8 @@
 			try {
 				const response = await fetch(url, options);
 				const result = await response.text();
-				displayResult(result);
+				const parsedresult = JSON.parse(results)
+				displayResult(parsedresult.name);
 			} catch (error) {
 				console.error(error);
 			}
@@ -100,6 +101,8 @@
 		<a href="#">Contact</a>
 	</div>
 	<div class="container">
+		<h1>Image recognition</h1>
+		<p>This is a program that can recognize the main objects in a image. To use enter the url of the image (don't use urls that start in "data:")</p>
 		<div class="form-container">
 			<input type="text" id="image-url" placeholder="Enter image URL">
 			<button onclick="analyzeImage()">Analyze Image</button>
