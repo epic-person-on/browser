@@ -28,11 +28,18 @@
 			color: black;
 		}
 
-		.results-container {
-			margin-top: 20px;
-			border: 1px solid #ccc;
-			padding: 10px;
-			white-space: pre-wrap;
+		.news-item {
+			margin-bottom: 20px;
+		}
+
+		.news-title {
+			font-weight: bold;
+			font-size: 20px;
+		}
+
+		.news-description {
+			margin-top: 5px;
+			font-size: 16px;
 		}
 	</style>
 	<script>
@@ -52,16 +59,33 @@
 			try {
 				const response = await fetch(url, options);
 				const result = await response.json();
-				const formattedResult = JSON.stringify(result, null, 2);
-				displayResult(formattedResult);
+				displayResult(result.value);
 			} catch (error) {
 				console.error(error);
 			}
 		}
 
-		function displayResult(result) {
+		function displayResult(newsData) {
 			const resultsContainer = document.getElementById('results-container');
-			resultsContainer.innerText = result;
+			resultsContainer.innerHTML = '';
+
+			newsData.forEach((newsItem) => {
+				const newsItemContainer = document.createElement('div');
+				newsItemContainer.classList.add('news-item');
+
+				const titleElement = document.createElement('h2');
+				titleElement.classList.add('news-title');
+				titleElement.textContent = newsItem.name;
+
+				const descriptionElement = document.createElement('p');
+				descriptionElement.classList.add('news-description');
+				descriptionElement.textContent = newsItem.description;
+
+				newsItemContainer.appendChild(titleElement);
+				newsItemContainer.appendChild(descriptionElement);
+
+				resultsContainer.appendChild(newsItemContainer);
+			});
 		}
 	</script>
 </head>
@@ -73,7 +97,7 @@
 	</div>
 	<div class="container">
 		<button onclick="fetchNews()">Fetch News</button>
-		<div class="results-container" id="results-container"></div>
+		<div id="results-container"></div>
 	</div>
 </body>
 </html>
