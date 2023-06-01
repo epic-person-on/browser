@@ -32,6 +32,7 @@
 			margin-top: 20px;
 			border: 1px solid #ccc;
 			padding: 10px;
+			white-space: pre-wrap;
 		}
 	</style>
 	<script>
@@ -50,8 +51,9 @@
 
 			try {
 				const response = await fetch(url, options);
-				const result = await response.text();
-				displayResult(result);
+				const result = await response.json();
+				const formattedResult = JSON.stringify(result, null, 2);
+				displayResult(formattedResult);
 			} catch (error) {
 				console.error(error);
 			}
@@ -65,9 +67,9 @@
 </head>
 <body>
 	<div class="navbar">
-		<a href="index.html">Home</a>
-		<a href="image.html">Image recognition</a>
-		<a href="news.html">News</a>
+		<a href="#">Home</a>
+		<a href="#">About</a>
+		<a href="#">Contact</a>
 	</div>
 	<div class="container">
 		<button onclick="fetchNews()">Fetch News</button>
