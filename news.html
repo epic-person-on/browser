@@ -1,76 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>News Page</title>
-  <style>
-    .article {
-      margin-bottom: 20px;
-    }
-    .article img {
-      max-width: 100%;
-      height: auto;
-    }
-  </style>
+	<title>News API Request</title>
+	<style>
+		.container {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+
+		.navbar {
+			background-color: #333;
+			overflow: hidden;
+		}
+
+		.navbar a {
+			float: left;
+			color: #f2f2f2;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+			font-size: 18px;
+		}
+
+		.navbar a:hover {
+			background-color: #ddd;
+			color: black;
+		}
+
+		.results-container {
+			margin-top: 20px;
+			border: 1px solid #ccc;
+			padding: 10px;
+		}
+	</style>
+	<script>
+		async function fetchNews() {
+			const url = 'https://bing-news-search1.p.rapidapi.com/news?safeSearch=Off&textFormat=Raw';
+			const apiKey = '3b143502a0mshe887b77a672d0b8p10626cjsnaf8a412d73d3';
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'X-BingApis-SDK': 'true',
+					'X-RapidAPI-Key': apiKey,
+					'X-RapidAPI-Host': 'bing-news-search1.p.rapidapi.com'
+				}
+			};
+
+			try {
+				const response = await fetch(url, options);
+				const result = await response.text();
+				displayResult(result);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+
+		function displayResult(result) {
+			const resultsContainer = document.getElementById('results-container');
+			resultsContainer.innerText = result;
+		}
+	</script>
 </head>
 <body>
-  <h1>Latest News</h1>
-  <div id="news-container"></div>
-
-  <script>
-    const url = 'https://bing-news-search1.p.rapidapi.com/news?safeSearch=Off&textFormat=Raw';
-    const options = {
-      method: 'GET',
-      headers: {
-        'X-BingApis-SDK': 'true',
-        'X-RapidAPI-Key': '3b143502a0mshe887b77a672d0b8p10626cjsnaf8a412d73d3',
-        'X-RapidAPI-Host': 'bing-news-search1.p.rapidapi.com'
-      }
-    };
-
-    async function fetchNews() {
-      try {
-        const response = await fetch(url, options);
-        const data = await response.json();
-        const newsContainer = document.getElementById('news-container');
-
-        data.value.forEach(article => {
-          const articleElement = document.createElement('div');
-          articleElement.classList.add('article');
-
-          const titleElement = document.createElement('h2');
-          titleElement.textContent = article.name;
-          articleElement.appendChild(titleElement);
-
-          const descriptionElement = document.createElement('p');
-          descriptionElement.textContent = article.description;
-          articleElement.appendChild(descriptionElement);
-
-          const imageElement = document.createElement('img');
-          imageElement.src = article.image.thumbnail.contentUrl;
-          articleElement.appendChild(imageElement);
-
-          const providerElement = document.createElement('p');
-          providerElement.textContent = `Provider: ${article.provider[0].name}`;
-          articleElement.appendChild(providerElement);
-
-          const dateElement = document.createElement('p');
-          const datePublished = new Date(article.datePublished);
-          dateElement.textContent = `Published: ${datePublished.toDateString()}`;
-          articleElement.appendChild(dateElement);
-
-          const linkElement = document.createElement('a');
-          linkElement.href = article.url;
-          linkElement.textContent = 'Read More';
-          articleElement.appendChild(linkElement);
-
-          newsContainer.appendChild(articleElement);
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchNews();
-  </script>
+	<div class="navbar">
+		<a href="index.html">Home</a>
+		<a href="image.html">Image recognition</a>
+		<a href="news.html">News</a>
+	</div>
+	<div class="container">
+		<button onclick="fetchNews()">Fetch News</button>
+		<div class="results-container" id="results-container"></div>
+	</div>
 </body>
 </html>
