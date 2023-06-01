@@ -82,7 +82,7 @@
 				const response = await fetch(url, options);
 				const result = await response.text();
 				const parsedresult = JSON.parse(result)
-				displayResult(parsedresult.name);
+				displayResult(parsedResult.name);
 			} catch (error) {
 				console.error(error);
 			}
@@ -90,7 +90,7 @@
 
 		function displayResult(result) {
 			const resultsContainer = document.getElementById('results-container');
-			resultsContainer.innerText = parsedresult.name;
+			resultsContainer.innerText = parsedResult.name;
 		}
 	</script>
 </head>
