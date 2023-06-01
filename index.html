@@ -81,7 +81,7 @@
 			try {
 				const response = await fetch(url, options);
 				const result = await response.text();
-				const parsedresult = JSON.parse(results)
+				const parsedresult = JSON.parse(result)
 				displayResult(parsedresult.name);
 			} catch (error) {
 				console.error(error);
